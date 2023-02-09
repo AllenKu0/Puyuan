@@ -1,0 +1,30 @@
+package com.example.demo1.base;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.*;
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Schema(name = "請求狀態")
+public class StatusResponse {
+    @Schema(description = "訊息代碼, 0=成功, 1=失敗")
+    private String status;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String code; //[測試用]驗證碼
+
+    @Getter
+    @AllArgsConstructor
+    public enum RC {
+        /** 操作成功 */
+        SUCCESS("0"),
+        /** 操作失敗 */
+        FAILED("1");
+
+        /** 定義狀態碼 **/
+        private final String code;
+    }
+}
