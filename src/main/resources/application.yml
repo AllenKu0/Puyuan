@@ -22,5 +22,8 @@ spring:
 debug: true
 
 springdoc:
+  swagger-ui:
+    path: /swagger-ui/index.html  #指定swagger-ui路徑
+    enabled: true # 開啟swagger-ui
   api-docs:
     enabled: true

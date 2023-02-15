@@ -21,7 +21,9 @@ public class AppUser implements UserDetails {
     @GeneratedValue
     private Long id;
     private String account;
+    @Column(unique = true)
     private String phone;
+    @Column(unique = true)
     private String email;
     private String password;
     @Enumerated(EnumType.STRING)

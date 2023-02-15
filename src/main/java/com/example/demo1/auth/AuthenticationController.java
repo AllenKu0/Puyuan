@@ -1,10 +1,13 @@
 package com.example.demo1.auth;
 
+import com.example.demo1.auth.request.RegisterRequest;
+import com.example.demo1.auth.request.VerificationRequest;
 import com.example.demo1.base.StatusResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,7 +22,7 @@ public class AuthenticationController {
     @Operation(summary = "註冊接口")
     @PostMapping("/register")
     public ResponseEntity<StatusResponse> register(
-        @RequestBody AuthenticationRequest request
+        @RequestBody @Validated RegisterRequest request
     ){
         return ResponseEntity.ok(service.register(request));
     }
@@ -27,7 +30,7 @@ public class AuthenticationController {
     @Operation(summary = "發送驗證碼")
     @PostMapping("/verification/send")
     public ResponseEntity<StatusResponse> sendCode(
-        @RequestBody AuthenticationRequest request
+        @RequestBody @Validated VerificationRequest request
     ) {
         return ResponseEntity.ok(service.sendCode(request));
     }

@@ -3,9 +3,12 @@ package com.example.demo1.auth;
 import com.example.demo1.appuser.AppUser;
 import com.example.demo1.appuser.AppUserRepository;
 import com.example.demo1.appuser.AppUserRole;
+import com.example.demo1.auth.request.RegisterRequest;
+import com.example.demo1.auth.request.VerificationRequest;
 import com.example.demo1.base.StatusResponse;
 import com.example.demo1.security.JwtService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.Random;
 
 @Service
+@Slf4j
 @AllArgsConstructor
 public class AuthenticationService {
     private final AppUserRepository userRepository;
@@ -21,7 +25,7 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public StatusResponse register(AuthenticationRequest request) {
+    public StatusResponse register(RegisterRequest request){
         var response = StatusResponse.builder();
         var user = AppUser.builder()
                 .account(request.getAccount())
@@ -56,7 +60,7 @@ public class AuthenticationService {
      * @param request
      * @return
      */
-    public StatusResponse sendCode(AuthenticationRequest request) {
+    public StatusResponse sendCode(VerificationRequest request) {
         var user = userRepository.findByEmail(request.getEmail()).orElseThrow();
 
         // 產生驗證碼並儲存，然後傳回給使用者
@@ -76,21 +80,14 @@ public class AuthenticationService {
      */
     public StatusResponse checkCode(AuthenticationRequest request) {
         var response = StatusResponse.builder();
-        if (request.getEmail() == null ||
-//            request.getPhone() == null ||
-                request.getCode() == null ) {
-            //請求參數錯誤
-            response.status(StatusResponse.RC.FAILED.getCode());
+        var user = userRepository.findByEmail(request.getEmail()).orElseThrow();
+        if(request.getCode().equals(user.getCode())) {
+            // 帳號信箱驗證成功
+            response.status(StatusResponse.RC.SUCCESS.getCode());
+            user.setEnabled(true);
+            userRepository.save(user);
         } else {
-            var user = userRepository.findByEmail(request.getEmail()).orElseThrow();
-            if(request.getCode().equals(user.getCode())) {
-                // 帳號信箱驗證成功
-                response.status(StatusResponse.RC.SUCCESS.getCode());
-                user.setEnabled(true);
-                userRepository.save(user);
-            } else {
-                response.status(StatusResponse.RC.FAILED.getCode());
-            }
+            response.status(StatusResponse.RC.FAILED.getCode());
         }
         return response.build();
     }
