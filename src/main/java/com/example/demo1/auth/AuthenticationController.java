@@ -1,11 +1,11 @@
 package com.example.demo1.auth;
 
-import com.example.demo1.auth.request.RegisterRequest;
-import com.example.demo1.auth.request.VerificationRequest;
+import com.example.demo1.auth.request.*;
 import com.example.demo1.base.StatusResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @Tag(name = "AuthenticationController",
      description = "身分驗證接口")
+@Slf4j
 public class AuthenticationController {
 
     private final AuthenticationService service;
@@ -38,7 +39,7 @@ public class AuthenticationController {
     @Operation(summary = "檢查驗證碼")
     @PostMapping("/verification/check")
     public ResponseEntity<StatusResponse> checkCode(
-        @RequestBody AuthenticationRequest request
+        @RequestBody @Validated CheckCodeRequest request
     ) {
         return ResponseEntity.ok(service.checkCode(request));
     }
@@ -46,7 +47,7 @@ public class AuthenticationController {
     @Operation(summary = "登入接口")
     @PostMapping("/auth")
     public ResponseEntity<AuthenticationResponse> login(
-        @RequestBody AuthenticationRequest request
+        @RequestBody @Validated LoginRequest request
     ) {
         return ResponseEntity.ok(service.login(request));
     }
@@ -54,17 +55,16 @@ public class AuthenticationController {
     @Operation(summary = "重設密碼")
     @PostMapping("/password/reset")
     public ResponseEntity<StatusResponse> resetPassword(
-        @RequestBody AuthenticationRequest request
+        @RequestBody @Validated ResetPasswordRequest request
     ) {
         return ResponseEntity.ok(service.resetPassword(request));
     }
 
     @Operation(summary = "忘記密碼")
     @PostMapping("/password/forgot")
-    public ResponseEntity<StatusResponse> forgot() {
-        // TODO: 2023/2/8 忘記密碼
-        return null;
+    public ResponseEntity<?> forgot(
+        @RequestBody @Validated ForgotRequest request
+    ) {
+        return ResponseEntity.ok(service.forgot(request));
     }
-
-
 }

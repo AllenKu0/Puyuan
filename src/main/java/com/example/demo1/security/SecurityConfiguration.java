@@ -32,10 +32,11 @@ public class SecurityConfiguration {
             .authorizeHttpRequests()
             .requestMatchers(
                 "/error/**",
-                "/api/register",
-                "/api/auth",
-                "/api/verification/send",
-                "/api/verification/check",
+                "/api/register",           //用戶註冊
+                "/api/auth",               //用戶登入
+                "/api/password/forgot",    //忘記密碼
+                "/api/verification/send",  //發送驗證碼
+                "/api/verification/check", //檢查驗證碼
                 "/v3/api-docs/**",
                 "/swagger-ui/**")
             .permitAll()

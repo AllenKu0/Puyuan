@@ -6,10 +6,11 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
-@Schema(name = "VerificationRequest", description = "發送驗證碼請求")
-public class VerificationRequest {
+@Schema(name = "ForgotRequest", description = "忘記密碼請求")
+public class ForgotRequest {
+
     @Schema(description = "使用者的信箱")
     @NotBlank
     @Email
-    private String email;
+    public String email;
 }

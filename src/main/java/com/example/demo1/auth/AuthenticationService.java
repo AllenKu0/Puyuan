@@ -3,18 +3,18 @@ package com.example.demo1.auth;
 import com.example.demo1.appuser.AppUser;
 import com.example.demo1.appuser.AppUserRepository;
 import com.example.demo1.appuser.AppUserRole;
-import com.example.demo1.auth.request.RegisterRequest;
-import com.example.demo1.auth.request.VerificationRequest;
+import com.example.demo1.auth.request.*;
 import com.example.demo1.base.StatusResponse;
 import com.example.demo1.security.JwtService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Random;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -35,20 +35,17 @@ public class AuthenticationService {
                 .userRole(AppUserRole.USER)
                 .build();
         userRepository.save(user);
-//        var jwtToken = jwtService.generateToken(user);
-
         return response.status(StatusResponse.RC.SUCCESS.getCode()).build();
     }
 
-    public AuthenticationResponse login(AuthenticationRequest request) {
+    public AuthenticationResponse login(LoginRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
+                        request.getAccount(),
                         request.getPassword()
                 )
         );
-        var user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow();
+        var user = userRepository.findByEmail(request.getAccount()).orElseThrow();
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
@@ -57,8 +54,6 @@ public class AuthenticationService {
 
     /**
      * 發送驗證碼
-     * @param request
-     * @return
      */
     public StatusResponse sendCode(VerificationRequest request) {
         var user = userRepository.findByEmail(request.getEmail()).orElseThrow();
@@ -75,10 +70,8 @@ public class AuthenticationService {
 
     /**
      * 檢查驗證碼
-     * @param request
-     * @return
      */
-    public StatusResponse checkCode(AuthenticationRequest request) {
+    public StatusResponse checkCode(CheckCodeRequest request) {
         var response = StatusResponse.builder();
         var user = userRepository.findByEmail(request.getEmail()).orElseThrow();
         if(request.getCode().equals(user.getCode())) {
@@ -86,25 +79,45 @@ public class AuthenticationService {
             response.status(StatusResponse.RC.SUCCESS.getCode());
             user.setEnabled(true);
             userRepository.save(user);
-        } else {
-            response.status(StatusResponse.RC.FAILED.getCode());
+            return response.build();
         }
-        return response.build();
+        throw new RuntimeException("檢查驗證碼操作失敗");
     }
 
     /**
      * 重設密碼
-     * @param request
-     * @return
      */
-    public StatusResponse resetPassword(AuthenticationRequest request) {
+    public StatusResponse resetPassword(ResetPasswordRequest request) {
+        var user = (AppUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        // 確認使用者知道舊密碼才能設定新密碼
+        if (passwordEncoder.matches(request.getOldPassword(), user.getPassword())) {
+            // 更新密碼並寫入資料庫
+            user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+            userRepository.save(user);
+            return StatusResponse.builder()
+                    .status(StatusResponse.RC.SUCCESS.getCode())
+                    .build();
+        }
+        throw new RuntimeException("重設密碼操作失敗");
+    }
+
+    /**
+     * 忘記密碼: 傳送新密碼到使用者信箱
+     */
+    public TreeMap<String, String> forgot(ForgotRequest request) {
+        var response = new TreeMap<String, String>();
+
         var user = userRepository.findByEmail(request.getEmail()).orElseThrow();
-        // 更新密碼並寫入資料庫
-        user.setPassword(request.getPassword());
-        userRepository.save(user);
-        return StatusResponse.builder()
-                .status(StatusResponse.RC.SUCCESS.getCode())
-                .build();
+        if(user.getEnabled() != null && user.getEnabled()) { // 使用者已經通過驗證碼驗證
+            String newPassword = UUID.randomUUID().toString().substring(0, 7); // 取前8位當作新密碼
+            user.setPassword(newPassword);
+            userRepository.save(user);
+
+            response.put("status", "0");
+            response.put("newPassword", newPassword);
+            return response;
+        }
+        throw new RuntimeException("忘記密碼操作失敗");
     }
 
     /**

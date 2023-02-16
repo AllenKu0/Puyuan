@@ -36,14 +36,20 @@ public class GlobalExceptionController {
     @ExceptionHandler(NoSuchElementException.class) // 無法從資料庫找到使用者
     @ResponseBody
     public ResponseEntity<Object> exception(NoSuchElementException e, HttpServletRequest request) {
-        log.error("請求[{}] {} 的參數校驗發生錯誤", request.getMethod(), request.getRequestURL());
+        log.error("請求[{}] {} 無法從資料庫找到使用者: {}", request.getMethod(), request.getRequestURL(), e.getMessage());
         return  ResponseEntity.badRequest().body(result);
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     @ResponseBody
     public ResponseEntity<Object> exception(DataIntegrityViolationException e, HttpServletRequest request) {
-        log.error("請求[{}] {} 的參數校驗發生錯誤", request.getMethod(), request.getRequestURL());
+        log.error("請求[{}] {} 的參數校驗發生錯誤: {}", request.getMethod(), request.getRequestURL(), e.getMessage());
+        return ResponseEntity.badRequest().body(result);
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<Object> exception(RuntimeException e, HttpServletRequest request) {
+        log.error("請求[{}] {} 發生異常: {}", request.getMethod(), request.getRequestURL(), e.getMessage());
         return ResponseEntity.badRequest().body(result);
     }
 }
