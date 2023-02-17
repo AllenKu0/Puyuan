@@ -18,16 +18,16 @@ public class PersonalSetService {
     private final UserSetRepository setRepository;
 
     public StatusResponse userSet(Map<String ,Object> request) {
-        var response = StatusResponse.builder();
-        var userEmail = ((AppUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getEmail();
-        var userSet = setRepository.findByEmail(userEmail).orElseThrow();
+        var userDetails = (AppUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        var userSet = setRepository.findByEmail(userDetails.getEmail()).orElseThrow();
         request.forEach((key, value)->{
             Field field = ReflectionUtils.findField(UserSetting.class, key);
+            assert field != null; //確保filed不會造成空指針異常
             field.setAccessible(true);
             ReflectionUtils.setField(field, userSet, value);
         });
         setRepository.save(userSet);
-        return response.status(StatusResponse.RC.SUCCESS.getCode()).build();
+        return StatusResponse.SUCCESS();
     }
 
 //    public UserSet userSetting(Long id,UserSet request) {

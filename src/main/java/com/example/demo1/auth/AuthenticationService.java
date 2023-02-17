@@ -29,7 +29,6 @@ public class AuthenticationService {
     private final UserSetRepository setRepository;
 
     public StatusResponse register(RegisterRequest request){
-        var response = StatusResponse.builder();
         var user = AppUser.builder()
                 .account(request.getAccount())
                 .password(passwordEncoder.encode(request.getPassword()))
@@ -48,8 +47,7 @@ public class AuthenticationService {
 
         setRepository.save(userSet);
 
-
-        return response.status(StatusResponse.RC.SUCCESS.getCode()).build();
+        return StatusResponse.SUCCESS();
     }
 
     public AuthenticationResponse login(LoginRequest request) {
@@ -86,14 +84,12 @@ public class AuthenticationService {
      * 檢查驗證碼
      */
     public StatusResponse checkCode(CheckCodeRequest request) {
-        var response = StatusResponse.builder();
         var user = userRepository.findByEmail(request.getEmail()).orElseThrow();
         if(request.getCode().equals(user.getCode())) {
             // 帳號信箱驗證成功
-            response.status(StatusResponse.RC.SUCCESS.getCode());
             user.setEnabled(true);
             userRepository.save(user);
-            return response.build();
+            return StatusResponse.SUCCESS();
         }
         throw new RuntimeException("檢查驗證碼操作失敗");
     }
@@ -108,9 +104,7 @@ public class AuthenticationService {
             // 更新密碼並寫入資料庫
             user.setPassword(passwordEncoder.encode(request.getNewPassword()));
             userRepository.save(user);
-            return StatusResponse.builder()
-                    .status(StatusResponse.RC.SUCCESS.getCode())
-                    .build();
+            return StatusResponse.SUCCESS();
         }
         throw new RuntimeException("重設密碼操作失敗");
     }
@@ -118,8 +112,8 @@ public class AuthenticationService {
     /**
      * 忘記密碼: 傳送新密碼到使用者信箱
      */
-    public TreeMap<String, String> forgot(ForgotRequest request) {
-        var response = new TreeMap<String, String>();
+    public Map<String, String> forgot(ForgotRequest request) {
+        var response = new LinkedHashMap<String, String>();
 
         var user = userRepository.findByEmail(request.getEmail()).orElseThrow();
         if(user.getEnabled() != null && user.getEnabled()) { // 使用者已經通過驗證碼驗證

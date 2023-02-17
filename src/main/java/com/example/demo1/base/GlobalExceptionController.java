@@ -17,9 +17,7 @@ import java.util.NoSuchElementException;
 @Slf4j
 public class GlobalExceptionController {
 
-    private final StatusResponse result = StatusResponse.builder()
-            .status(StatusResponse.RC.FAILED.getCode())
-            .build();
+    private final StatusResponse FAILED_RESULT = StatusResponse.FAILED(); //預設為失敗狀態
 
     @ExceptionHandler(MethodArgumentNotValidException.class) // 資料參數驗證不過
     @ResponseBody
@@ -30,26 +28,26 @@ public class GlobalExceptionController {
             FieldError fieldError = (FieldError) objectError;
             log.error("參數 {} = {} 校驗錯誤: {}", fieldError.getField(), fieldError.getRejectedValue(), fieldError.getDefaultMessage());
         }
-        return ResponseEntity.badRequest().body(result);
+        return ResponseEntity.badRequest().body(FAILED_RESULT);
     }
 
     @ExceptionHandler(NoSuchElementException.class) // 無法從資料庫找到使用者
     @ResponseBody
     public ResponseEntity<Object> exception(NoSuchElementException e, HttpServletRequest request) {
         log.error("請求[{}] {} 無法從資料庫找到使用者: {}", request.getMethod(), request.getRequestURL(), e.getMessage());
-        return  ResponseEntity.badRequest().body(result);
+        return  ResponseEntity.badRequest().body(FAILED_RESULT);
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     @ResponseBody
     public ResponseEntity<Object> exception(DataIntegrityViolationException e, HttpServletRequest request) {
         log.error("請求[{}] {} 的參數校驗發生錯誤: {}", request.getMethod(), request.getRequestURL(), e.getMessage());
-        return ResponseEntity.badRequest().body(result);
+        return ResponseEntity.badRequest().body(FAILED_RESULT);
     }
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<Object> exception(RuntimeException e, HttpServletRequest request) {
         log.error("請求[{}] {} 發生異常: {}", request.getMethod(), request.getRequestURL(), e.getMessage());
-        return ResponseEntity.badRequest().body(result);
+        return ResponseEntity.badRequest().body(FAILED_RESULT);
     }
 }
