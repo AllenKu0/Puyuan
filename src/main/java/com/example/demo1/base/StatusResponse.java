@@ -16,6 +16,20 @@ public class StatusResponse {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String code; //[測試用]驗證碼
 
+    /**
+     * @return 成功狀態
+     */
+    public static StatusResponse SUCCESS() {
+        return StatusResponse.builder().status(RC.SUCCESS.getCode()).build();
+    }
+
+    /**
+     * @return 失敗狀態
+     */
+    public static StatusResponse FAILED() {
+        return StatusResponse.builder().status(RC.FAILED.getCode()).build();
+    }
+
     @Getter
     @AllArgsConstructor
     public enum RC {

@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
-@Tag(name = "AuthenticationController",
-     description = "身分驗證接口")
+@Tag(name = "身分驗證模塊",
+     description = "包含註冊、登入、登出等身分驗證之API")
 @Slf4j
 public class AuthenticationController {
 

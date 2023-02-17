@@ -1,11 +1,14 @@
 package com.example.demo1.appuser;
 
+import com.example.demo1.a1c.A1cEntity;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -31,6 +34,10 @@ public class AppUser implements UserDetails {
 
     private String code = null; //驗證碼(6位)
     private Boolean enabled = false; //帳號使否已被啟用
+
+    @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<A1cEntity> a1cs = new ArrayList<>();
 
     public AppUser(String account, String phone, String email, String password, AppUserRole userRole) {
         this.account = account;
