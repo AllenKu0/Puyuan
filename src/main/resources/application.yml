@@ -19,11 +19,17 @@ spring:
         format_sql: true
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+  jackson:
+    date-format: "yyyy-MM-dd HH:mm:ss"
+    time-zone: "GMT+8"
+    parser:
+      allow-comments: true
 debug: true
 
 springdoc:
   swagger-ui:
     path: /swagger-ui/index.html  #指定swagger-ui路徑
     enabled: true # 開啟swagger-ui
+    operations-sorter: method #按照method順序顯示
   api-docs:
     enabled: true

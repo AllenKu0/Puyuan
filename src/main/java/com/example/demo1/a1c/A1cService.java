@@ -8,11 +8,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.example.demo1.my_utils.RequestConverter.recordedAtStrToTimestamp;
 
 @Service
 @AllArgsConstructor
@@ -38,14 +38,11 @@ public class A1cService {
      */
     public StatusResponse upload(A1cRequest request) {
         AppUser appUser = (AppUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        var dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        var dateTime = dtf.format(LocalDateTime.now());
+
         var a1cData = A1cEntity.builder()
             .appUser(appUser)
             .a1c(request.getA1c())
-            .recorded_at(request.getRecorded_at())
-            .created_at(dateTime)
-            .updated_at(dateTime)
+            .recorded_at(recordedAtStrToTimestamp(request.getRecorded_at()))
             .build();
         a1cRepository.save(a1cData);
         return StatusResponse.SUCCESS();
