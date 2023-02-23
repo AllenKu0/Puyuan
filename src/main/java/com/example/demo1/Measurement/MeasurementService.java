@@ -14,8 +14,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import static com.example.demo1.my_utils.RequestConverter.recordedAtStrToTimestamp;
-
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -32,7 +30,7 @@ public class MeasurementService {
         var data = BloodSugarEntity.builder()
             .sugar(request.getSugar())
             .timeperiod(request.getTimeperiod())
-            .recorded_at(recordedAtStrToTimestamp(request.getRecorded_at()))
+            .recorded_at(request.getRecorded_at())
             .build();
         bloodSugarRepository.save(data);
         return StatusResponse.SUCCESS();
@@ -46,7 +44,7 @@ public class MeasurementService {
             .systolic(request.getSystolic())
             .diastolic(request.getDiastolic())
             .pulse(request.getPulse())
-            .recorded_at(recordedAtStrToTimestamp(request.getRecorded_at()))
+            .recorded_at(request.getRecorded_at())
             .build();
         bloodPressureRepository.save(data);
         return StatusResponse.SUCCESS();
@@ -60,7 +58,7 @@ public class MeasurementService {
             .weight(request.getWeight())
             .body_fat(request.getBody_fat())
             .bmi(request.getBmi())
-            .recorded_at(recordedAtStrToTimestamp(request.getRecorded_at()))
+            .recorded_at(request.getRecorded_at())
             .build();
         weightRepository.save(data);
         return StatusResponse.SUCCESS();

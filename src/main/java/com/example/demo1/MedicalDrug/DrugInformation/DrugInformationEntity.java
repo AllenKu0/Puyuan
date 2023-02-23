@@ -12,7 +12,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -37,13 +37,13 @@ public class DrugInformationEntity {
     private Boolean type;
 
     /** 使用者紀錄時間 */
-    private Timestamp recorded_at;
+    private LocalDateTime recorded_at;
 
     @LastModifiedDate
-    private Timestamp updated_at;
+    private LocalDateTime updated_at;
 
     @CreatedDate
-    private Timestamp created_at;
+    private LocalDateTime created_at;
 
     @CreatedBy
     @ManyToOne(fetch = FetchType.LAZY)

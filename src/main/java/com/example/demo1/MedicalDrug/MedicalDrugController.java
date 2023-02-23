@@ -1,6 +1,7 @@
 package com.example.demo1.MedicalDrug;
 
 import com.example.demo1.MedicalDrug.DrugInformation.DrugUsedRequest;
+import com.example.demo1.MedicalDrug.MedicalInformation.MedicalInfoRequest;
 import com.example.demo1.base.StatusResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,6 @@ import java.util.List;
 public class MedicalDrugController {
 
     private final MedicalDrugService service;
-
 
     @Operation(description = "上傳藥物資訊")
     @PostMapping("/drug-used")
@@ -42,5 +42,19 @@ public class MedicalDrugController {
         @RequestParam List<Long> ids
     ) {
         return ResponseEntity.ok(service.deleteDrugUseds(ids));
+    }
+
+    @Operation(description = "設定就醫資訊")
+    @PatchMapping("/medical")
+    public ResponseEntity<StatusResponse> updateMedicalInfo(
+        @RequestBody @Validated MedicalInfoRequest request
+    ) {
+        return ResponseEntity.ok(service.updateMedicalInfo(request));
+    }
+
+    @Operation(description = "獲取就醫資訊")
+    @GetMapping("/medical")
+    public ResponseEntity<?> fetchMedicalInfo() {
+        return ResponseEntity.ok(service.fetchMedicalInfo());
     }
 }

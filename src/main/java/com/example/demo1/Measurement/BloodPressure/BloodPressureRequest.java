@@ -1,8 +1,9 @@
 package com.example.demo1.Measurement.BloodPressure;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+
+import java.time.LocalDateTime;
 
 @Data
 @Schema(name = "血壓測量結果之請求")
@@ -18,6 +19,5 @@ public class BloodPressureRequest {
     private float pulse;
 
     @Schema(description = "使用者紀錄時間")
-    @NotBlank
-    private String recorded_at;
+    private LocalDateTime recorded_at;
 }

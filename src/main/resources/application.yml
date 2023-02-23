@@ -3,7 +3,6 @@
 #    include-message: always
 #    include-binding-errors: always
 
-
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/registration
@@ -19,11 +18,6 @@ spring:
         format_sql: true
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-  jackson:
-    date-format: "yyyy-MM-dd HH:mm:ss"
-    time-zone: "GMT+8"
-    parser:
-      allow-comments: true
 debug: true
 
 springdoc:

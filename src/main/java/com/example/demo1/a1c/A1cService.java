@@ -12,8 +12,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.example.demo1.my_utils.RequestConverter.recordedAtStrToTimestamp;
-
 @Service
 @AllArgsConstructor
 @Slf4j
@@ -42,7 +40,7 @@ public class A1cService {
         var a1cData = A1cEntity.builder()
             .appUser(appUser)
             .a1c(request.getA1c())
-            .recorded_at(recordedAtStrToTimestamp(request.getRecorded_at()))
+            .recorded_at(request.getRecorded_at())
             .build();
         a1cRepository.save(a1cData);
         return StatusResponse.SUCCESS();

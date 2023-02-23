@@ -4,6 +4,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 @Schema(name = "上傳藥物資訊之請求體")
 public class DrugUsedRequest {
@@ -15,6 +17,5 @@ public class DrugUsedRequest {
     private String name;
 
     @Schema(description = "使用者紀錄時間")
-    @NotBlank
-    private String recorded_at;
+    private LocalDateTime recorded_at;
 }

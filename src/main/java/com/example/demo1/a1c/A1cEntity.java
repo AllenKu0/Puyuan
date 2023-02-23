@@ -8,7 +8,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -34,20 +34,20 @@ public class A1cEntity {
     /** 紀錄糖化血紅素時間
      *  - 前端可手動決定(設定)的時間
      */
-    private Timestamp recorded_at;
+    private LocalDateTime recorded_at;
 
     /**
      * 更新此筆資料的時間
      * - 由後端系統時間決定
      */
     @LastModifiedDate
-    private Timestamp updated_at;
+    private LocalDateTime updated_at;
 
     /** 創建糖化血紅素日期時間 */
     @CreatedDate
-    private Timestamp created_at;
+    private LocalDateTime created_at;
 
-    public A1cEntity(AppUser appUser, Double a1c, Timestamp recorded_at) {
+    public A1cEntity(AppUser appUser, Double a1c, LocalDateTime recorded_at) {
         this.appUser = appUser;
         this.a1c = a1c;
         this.recorded_at = recorded_at;

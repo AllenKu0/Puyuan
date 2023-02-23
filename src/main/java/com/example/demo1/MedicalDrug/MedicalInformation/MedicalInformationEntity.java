@@ -1,15 +1,18 @@
 package com.example.demo1.MedicalDrug.MedicalInformation;
 
+import com.example.demo1.appuser.AppUser;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -26,20 +29,25 @@ public class MedicalInformationEntity {
     private Long id;
 
     /** 糖尿病口服藥 */
-    private boolean oad;
+    private Boolean oad;
 
     /** 胰島素 */
-    private boolean insulin;
+    private Boolean insulin;
 
     /** 高血壓藥 */
-    private boolean anti_hypertensives;
+    private Boolean anti_hypertensives;
 
     /** 0~4 無/糖尿病前期/第一型/第二型/妊娠 */
     private int diabetes_type;
 
     @LastModifiedDate
-    private Timestamp updated_at;
+    private LocalDateTime updated_at;
     @CreatedDate
-    private Timestamp created_at;
+    private LocalDateTime created_at;
+
+    @CreatedBy
+    @OneToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
+    private AppUser appUser;
 
 }

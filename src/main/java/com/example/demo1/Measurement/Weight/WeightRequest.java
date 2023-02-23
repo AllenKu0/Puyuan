@@ -1,8 +1,9 @@
 package com.example.demo1.Measurement.Weight;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+
+import java.time.LocalDateTime;
 
 @Data
 @Schema(name = "體重測量結果")
@@ -17,6 +18,5 @@ public class WeightRequest {
     private float bmi;
 
     @Schema(description = "使用者的紀錄時間")
-    @NotBlank
-    private String recorded_at;
+    private LocalDateTime recorded_at;
 }
