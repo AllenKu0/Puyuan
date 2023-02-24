@@ -1,7 +1,7 @@
-package com.example.demo1.PersonalSettings;
+package com.example.demo1.UserSet.UserInformation.PersonalInformation;
 
-import com.example.demo1.UserSet.UserSetRepository;
-import com.example.demo1.UserSet.UserSetting;
+import com.example.demo1.UserSet.UserInformation.UserSetEntity;
+import com.example.demo1.UserSet.UserInformation.UserSetRepository;
 import com.example.demo1.appuser.AppUser;
 import com.example.demo1.base.StatusResponse;
 import lombok.AllArgsConstructor;
@@ -14,33 +14,33 @@ import java.util.Map;
 
 @Service
 @AllArgsConstructor
-public class PersonalSetService {
+public class UserInformationService {
+
     private final UserSetRepository setRepository;
 
     public StatusResponse userSet(Map<String ,Object> request) {
         var userDetails = (AppUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        var userSet = setRepository.findByEmail(userDetails.getEmail()).orElseThrow();
+//        var userSet = UserSetEntity.builder().appUser(userDetails).build();
+        var userSet = setRepository.findByEmail(userDetails.getEmail())
+                .orElse(
+                    UserSetEntity.builder()
+                    .appUser(userDetails)
+                    .name(userDetails.getAccount())
+                    .phone(userDetails.getPhone())
+                    .email(userDetails.getEmail())
+                    .build()
+                );
+
         request.forEach((key, value)->{
-            Field field = ReflectionUtils.findField(UserSetting.class, key);
+            Field field = ReflectionUtils.findField(UserSetEntity.class, key);
             assert field != null; //確保filed不會造成空指針異常
             field.setAccessible(true);
             ReflectionUtils.setField(field, userSet, value);
         });
+
         setRepository.save(userSet);
         return StatusResponse.SUCCESS();
     }
 
-//    public UserSet userSetting(Long id,UserSet request) {
-//        var user = setRepository.findById(id).orElseThrow();
-//        user.setAddress(request.getAddress());
-//        user.setName(request.getName());
-//        setRepository.save(user);
-//        return user;
-//    }
 
-    public UserSetting getUserSet() {
-        var userDetails = (AppUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        var userEmail = userDetails.getEmail();
-        return setRepository.findByEmail(userEmail).orElseThrow();
-    }
 }

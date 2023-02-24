@@ -1,13 +1,13 @@
-package com.example.demo1.UserSet;
+package com.example.demo1.UserSet.UserInformation;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.example.demo1.appuser.AppUser;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Data
 @Builder
@@ -15,19 +15,23 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "_user_set")
-public class UserSetting {
+@EntityListeners(AuditingEntityListener.class)
+public class UserSetEntity {
     @Id
     @GeneratedValue
     private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "app_user_id")
+    @JsonBackReference
+    private AppUser appUser;
 
     //    @Schema(description = "FCM")
     private String fcm_id;
     //    @Schema(description = "暱稱")
     private String name;
-
     private String status;
     private String groups;
-
     //    @Schema(description = "生日")
     private String birthday;
     //    @Schema(description = "身高")
@@ -42,7 +46,6 @@ public class UserSetting {
     private String phone;
     //    @Schema(description = "電子郵件")
     private String email;
-
     //    @Schema(description = "邀請代碼")
     private String invite_code;
     private String unread_recode_one;

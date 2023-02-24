@@ -1,7 +1,5 @@
 package com.example.demo1.auth;
 
-import com.example.demo1.UserSet.UserSetRepository;
-import com.example.demo1.UserSet.UserSetting;
 import com.example.demo1.appuser.AppUser;
 import com.example.demo1.appuser.AppUserRepository;
 import com.example.demo1.appuser.AppUserRole;
@@ -26,7 +24,6 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-    private final UserSetRepository setRepository;
 
     public StatusResponse register(RegisterRequest request){
         var user = AppUser.builder()
@@ -37,16 +34,6 @@ public class AuthenticationService {
                 .userRole(AppUserRole.USER)
                 .build();
         userRepository.save(user);
-
-        /* 個人資料儲存 */
-        var userSet = UserSetting.builder()
-                .name(request.getAccount())
-                .phone(request.getPhone())
-                .email(request.getEmail())
-                .build();
-
-        setRepository.save(userSet);
-
         return StatusResponse.SUCCESS();
     }
 

@@ -1,4 +1,4 @@
-package com.example.demo1.PersonalSettings;
+package com.example.demo1.UserSet.UserInformation.PersonalInformation;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Schema(name = "個人資訊模塊")
-public class PersonalSetRequest {
+public class UserInformationRequest {
     @Schema(description = "FCM")
     private String fcm_id;
     @Schema(description = "暱稱")

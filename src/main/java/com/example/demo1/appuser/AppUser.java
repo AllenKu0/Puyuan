@@ -1,5 +1,8 @@
 package com.example.demo1.appuser;
 
+import com.example.demo1.UserSet.Default.DefaultEntity;
+import com.example.demo1.UserSet.Setting.SettingEntity;
+import com.example.demo1.UserSet.UserInformation.UserSetEntity;
 import com.example.demo1.a1c.A1cEntity;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -38,6 +41,20 @@ public class AppUser implements UserDetails {
     @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<A1cEntity> a1cs = new ArrayList<>();
+
+    @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<UserSetEntity> userSets = new ArrayList<>();
+
+    @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<DefaultEntity> userDefaults = new ArrayList<>();
+
+    @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<SettingEntity> userSettings = new ArrayList<>();
+
+
 
     public AppUser(String account, String phone, String email, String password, AppUserRole userRole) {
         this.account = account;
