@@ -2,8 +2,8 @@ package com.example.puyuan.UserSet.Setting.PersonalSettings;
 
 import com.example.puyuan.UserSet.Setting.SettingEntity;
 import com.example.puyuan.UserSet.Setting.SettingRepository;
-import com.example.puyuan.appuser.AppUser;
-import com.example.puyuan.base.StatusResponse;
+import com.example.puyuan.AppUser.AppUserEntity;
+import com.example.puyuan.Base.StatusResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ public class PersonalSettingsService {
     private final SettingRepository repository;
     public StatusResponse personalSettings(Map<String, Object> request) {
 //        var response = StatusResponse.builder();
-        var userApp = ((AppUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        var userApp = ((AppUserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         var userSetting = repository.findAllByAppUser(userApp)
                 .orElse(
                         SettingEntity.builder()

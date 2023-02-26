@@ -1,6 +1,6 @@
 package com.example.puyuan.MedicalDrug.DrugInformation;
 
-import com.example.puyuan.appuser.AppUser;
+import com.example.puyuan.AppUser.AppUserEntity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -48,5 +48,5 @@ public class DrugInformationEntity {
     @CreatedBy
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference
-    private AppUser user;
+    private AppUserEntity user;
 }

@@ -2,8 +2,8 @@ package com.example.puyuan.UserSet.Default.PersonalDefault;
 
 import com.example.puyuan.UserSet.Default.DefaultEntity;
 import com.example.puyuan.UserSet.Default.DefaultRepository;
-import com.example.puyuan.appuser.AppUser;
-import com.example.puyuan.base.StatusResponse;
+import com.example.puyuan.AppUser.AppUserEntity;
+import com.example.puyuan.Base.StatusResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ public class PersonalDefaultService {
 
     private final DefaultRepository repository;
     public StatusResponse defaultSetting(Map<String, Object> request) {
-        var appUser = ((AppUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        var appUser = ((AppUserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         var userDefault = repository.findAllByAppUser(appUser)
                 .orElse(
                         DefaultEntity.builder()

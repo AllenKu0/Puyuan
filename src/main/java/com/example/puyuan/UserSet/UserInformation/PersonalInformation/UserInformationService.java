@@ -2,8 +2,8 @@ package com.example.puyuan.UserSet.UserInformation.PersonalInformation;
 
 import com.example.puyuan.UserSet.UserInformation.UserSetEntity;
 import com.example.puyuan.UserSet.UserInformation.UserSetRepository;
-import com.example.puyuan.appuser.AppUser;
-import com.example.puyuan.base.StatusResponse;
+import com.example.puyuan.AppUser.AppUserEntity;
+import com.example.puyuan.Base.StatusResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ public class UserInformationService {
     private final UserSetRepository setRepository;
 
     public StatusResponse userSet(Map<String ,Object> request) {
-        var userDetails = (AppUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        var userDetails = (AppUserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 //        var userSet = UserSetEntity.builder().appUser(userDetails).build();
         var userSet = setRepository.findByEmail(userDetails.getEmail())
                 .orElse(

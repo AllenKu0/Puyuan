@@ -2,7 +2,7 @@ package com.example.puyuan.MedicalDrug;
 
 import com.example.puyuan.MedicalDrug.DrugInformation.DrugUsedRequest;
 import com.example.puyuan.MedicalDrug.MedicalInformation.MedicalInfoRequest;
-import com.example.puyuan.base.StatusResponse;
+import com.example.puyuan.Base.StatusResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,6 +1,6 @@
 package com.example.puyuan.Measurement.Weight;
 
-import com.example.puyuan.appuser.AppUser;
+import com.example.puyuan.AppUser.AppUserEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -48,5 +48,5 @@ public class WeightEntity {
 
     @CreatedBy
     @ManyToOne(fetch = FetchType.LAZY)
-    private AppUser appUser;
+    private AppUserEntity appUser;
 }

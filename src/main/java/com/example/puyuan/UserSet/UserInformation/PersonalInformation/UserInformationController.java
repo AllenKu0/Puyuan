@@ -1,6 +1,6 @@
 package com.example.puyuan.UserSet.UserInformation.PersonalInformation;
 
-import com.example.puyuan.base.StatusResponse;
+import com.example.puyuan.Base.StatusResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

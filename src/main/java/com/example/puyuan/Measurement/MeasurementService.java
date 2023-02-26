@@ -9,7 +9,7 @@ import com.example.puyuan.Measurement.BloodSugar.BloodSugarRequest;
 import com.example.puyuan.Measurement.Weight.WeightEntity;
 import com.example.puyuan.Measurement.Weight.WeightRepository;
 import com.example.puyuan.Measurement.Weight.WeightRequest;
-import com.example.puyuan.base.StatusResponse;
+import com.example.puyuan.Base.StatusResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

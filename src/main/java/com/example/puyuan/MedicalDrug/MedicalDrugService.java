@@ -6,8 +6,8 @@ import com.example.puyuan.MedicalDrug.DrugInformation.DrugUsedRequest;
 import com.example.puyuan.MedicalDrug.MedicalInformation.MedicalInfoRequest;
 import com.example.puyuan.MedicalDrug.MedicalInformation.MedicalInformationEntity;
 import com.example.puyuan.MedicalDrug.MedicalInformation.MedicalInformationRepository;
-import com.example.puyuan.appuser.AppUser;
-import com.example.puyuan.base.StatusResponse;
+import com.example.puyuan.AppUser.AppUserEntity;
+import com.example.puyuan.Base.StatusResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -41,7 +41,7 @@ public class MedicalDrugService {
      * 獲取所有藥物資訊
      */
     public Map<String, Object> fetchAllDrugUsed(boolean type) {
-        var appUser = (AppUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        var appUser = (AppUserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         // 從資料庫撈資料
         var drugUseds = drugInfoRepository.findAllByTypeAndUser(type, appUser);
@@ -56,7 +56,7 @@ public class MedicalDrugService {
      * 刪除多筆藥物資訊
      */
     public StatusResponse deleteDrugUseds(List<Long> ids) {
-        var appUser = (AppUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        var appUser = (AppUserEntity)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if(drugInfoRepository.deleteByIdsAndUser(ids, appUser) > 0) {
             return StatusResponse.SUCCESS();
         }
@@ -69,7 +69,7 @@ public class MedicalDrugService {
     public StatusResponse updateMedicalInfo(
         MedicalInfoRequest request
     ) {
-        var appUser = (AppUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        var appUser = (AppUserEntity)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         var data = medicalInfoRepository.findByAppUser(appUser)
             .orElse(new MedicalInformationEntity()); //如果找不到使用者資料則創建新資料
         BeanUtils.copyProperties(request, data);
@@ -81,7 +81,7 @@ public class MedicalDrugService {
      * 獲取就醫資訊
      */
     public Map<String, Object> fetchMedicalInfo() {
-        var appUser = (AppUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        var appUser = (AppUserEntity)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         //從資料庫撈取資料
         var medical_info = medicalInfoRepository.findByAppUser(appUser)

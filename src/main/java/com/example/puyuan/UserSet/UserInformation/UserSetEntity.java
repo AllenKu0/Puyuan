@@ -1,6 +1,6 @@
 package com.example.puyuan.UserSet.UserInformation;
 
-import com.example.puyuan.appuser.AppUser;
+import com.example.puyuan.AppUser.AppUserEntity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -24,7 +24,7 @@ public class UserSetEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "app_user_id")
     @JsonBackReference
-    private AppUser appUser;
+    private AppUserEntity appUser;
 
     //    @Schema(description = "FCM")
     private String fcm_id;

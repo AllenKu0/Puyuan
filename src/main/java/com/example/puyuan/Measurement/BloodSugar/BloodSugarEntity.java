@@ -1,6 +1,6 @@
 package com.example.puyuan.Measurement.BloodSugar;
 
-import com.example.puyuan.appuser.AppUser;
+import com.example.puyuan.AppUser.AppUserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedBy;
@@ -44,5 +44,5 @@ public class BloodSugarEntity {
 
     @CreatedBy
     @ManyToOne(fetch = FetchType.LAZY)
-    private AppUser appUser;
+    private AppUserEntity appUser;
 }

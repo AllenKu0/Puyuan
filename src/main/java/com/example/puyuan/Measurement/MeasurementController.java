@@ -3,7 +3,7 @@ package com.example.puyuan.Measurement;
 import com.example.puyuan.Measurement.BloodPressure.BloodPressureRequest;
 import com.example.puyuan.Measurement.BloodSugar.BloodSugarRequest;
 import com.example.puyuan.Measurement.Weight.WeightRequest;
-import com.example.puyuan.base.StatusResponse;
+import com.example.puyuan.Base.StatusResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

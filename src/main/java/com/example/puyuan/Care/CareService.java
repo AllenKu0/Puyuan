@@ -1,7 +1,7 @@
 package com.example.puyuan.Care;
 
-import com.example.puyuan.appuser.AppUser;
-import com.example.puyuan.base.StatusResponse;
+import com.example.puyuan.AppUser.AppUserEntity;
+import com.example.puyuan.Base.StatusResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ public class CareService {
      * 獲取關懷訊息
      */
     public Map<String, Object> fetchCares() {
-        var appUser = (AppUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        var appUser = (AppUserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         // 從資料庫撈取資料
         var cares = repository.findAllByAppUser(appUser).orElseThrow();

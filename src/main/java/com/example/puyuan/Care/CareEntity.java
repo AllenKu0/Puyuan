@@ -1,6 +1,6 @@
 package com.example.puyuan.Care;
 
-import com.example.puyuan.appuser.AppUser;
+import com.example.puyuan.AppUser.AppUserEntity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -35,9 +35,9 @@ public class CareEntity {
     private String message;
 
     @CreatedBy
-    @ManyToOne(targetEntity = AppUser.class)
+    @ManyToOne(targetEntity = AppUserEntity.class)
     @JsonBackReference
-    private AppUser appUser;
+    private AppUserEntity appUser;
 
     @LastModifiedDate
     private LocalDateTime updated_at;

@@ -1,8 +1,8 @@
 package com.example.puyuan.UserSet.PersonalGetData;
 
-import com.example.puyuan.appuser.AppUser;
-import com.example.puyuan.appuser.AppUserRepository;
-import com.example.puyuan.base.StatusResponse;
+import com.example.puyuan.AppUser.AppUserEntity;
+import com.example.puyuan.AppUser.AppUserRepository;
+import com.example.puyuan.Base.StatusResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ public class PersonalDataService {
     private final AppUserRepository appUserRepository;
 
     public Map<String, Object> getUserSet() {
-        var userDetails = (AppUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        var userDetails = (AppUserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         var userData = appUserRepository.findById(userDetails.getId()).orElseThrow();
         var response = new LinkedHashMap<String, Object>();
         response.put("status", StatusResponse.RC.SUCCESS.getCode());

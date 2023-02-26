@@ -1,6 +1,6 @@
 package com.example.puyuan.MedicalDrug.DrugInformation;
 
-import com.example.puyuan.appuser.AppUser;
+import com.example.puyuan.AppUser.AppUserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -13,7 +13,7 @@ import java.util.Optional;
 @Repository
 public interface DrugInformationRepository extends JpaRepository<DrugInformationEntity, Long> {
 
-    Optional<List<DrugInformationEntity>> findAllByTypeAndUser(Boolean type, AppUser user);
+    Optional<List<DrugInformationEntity>> findAllByTypeAndUser(Boolean type, AppUserEntity user);
 
     /**
      * 刪除多筆藥物資訊
@@ -25,5 +25,5 @@ public interface DrugInformationRepository extends JpaRepository<DrugInformation
     @Query(
         value = "DELETE FROM DrugInformationEntity d WHERE d.id IN :ids AND d.user = :user"
     )
-    int deleteByIdsAndUser(List<Long> ids, AppUser user);
+    int deleteByIdsAndUser(List<Long> ids, AppUserEntity user);
 }
