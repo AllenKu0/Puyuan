@@ -38,7 +38,8 @@ public class SecurityConfiguration {
                 "/api/verification/send",  //發送驗證碼
                 "/api/verification/check", //檢查驗證碼
                 "/v3/api-docs/**",
-                "/swagger-ui/**")
+                "/swagger-ui/**",
+                "/api/test/**")
             .permitAll()
             .anyRequest()
             .authenticated()

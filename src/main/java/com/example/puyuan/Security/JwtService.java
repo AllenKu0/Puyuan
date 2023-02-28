@@ -5,6 +5,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +17,12 @@ import java.util.function.Function;
 
 @Service
 public class JwtService {
-    // Token有效期限 (設定24分鐘過期)
-    private static final long EXPIRATION_TIME = 24 * 60 * 1000; //單位ms
-    private static final String SECRET_KEY = "546A576D5A7134743777217A25432A462D4A614E645267556B58703272357538";
+    // Token有效期限 (設定15分鐘過期)
+    @Value("${conf.token.expiration}")
+    private Long EXPIRATION_TIME; //單位ms
+
+    @Value("${conf.token.secret}")
+    private String SECRET_KEY;
 
 
     public String extractUsername(String token) {

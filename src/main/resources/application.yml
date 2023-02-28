@@ -2,22 +2,35 @@
 #  error:
 #    include-message: always
 #    include-binding-errors: always
-
+conf:
+  token:
+    expiration: 900000 #Token有效期限 (設定15分鐘過期=15*60*1000 單位:毫秒)
+spring:
+  profiles:
+    active: dev
+---
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/registration
-    password: 12345678
-    username: postgres
+    url: ${conf.db.url}
+    username: ${conf.db.username}
+    password: ${conf.db.password}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: ${conf.db.ddl-auto}
     show-sql: true
     properties:
       hibernate:
         format_sql: true
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+  data:
+    redis:
+      host: ${conf.redis.host}  #Redis伺服器位址 (預設 localhost)
+      port: ${conf.redis.port} #Redis伺服器埠號 (預設 6379)
+      database: ${conf.redis.database}  #Redis資料庫索引 (預設 0)
+      timeout: 4000 # 讀取超時
+
 debug: true
 
 springdoc:

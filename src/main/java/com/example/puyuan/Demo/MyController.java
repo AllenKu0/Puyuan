@@ -9,8 +9,10 @@ import com.example.puyuan.UserSet.UserInformation.UserSetRepository;
 import com.example.puyuan.AppUser.AppUserEntity;
 import com.example.puyuan.AppUser.AppUserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/test")
 @RequiredArgsConstructor
 public class MyController {
 
@@ -29,6 +31,8 @@ public class MyController {
 
     private final DefaultRepository defaultRepository;
     private final SettingRepository settingRepository;
+
+    private final RedisTemplate<String, Object> redisTemplate;
 
     @GetMapping("/hello/DBTest")
     public ResponseEntity<Map<String, Object>> BDTest() {
@@ -49,5 +53,17 @@ public class MyController {
     @GetMapping("/hello")
     public String sayHello(){
         return "hello world!!!";
+    }
+
+    @PostMapping("/redis")
+    public ResponseEntity<String> redisSet() {
+        redisTemplate.opsForValue().set("name", "Tom");
+        return ResponseEntity.ok("上傳成功");
+    }
+
+    @GetMapping("/redis")
+    public String redisGet() {
+        Object name =redisTemplate.opsForValue().get("name");
+        return name.toString();
     }
 }
