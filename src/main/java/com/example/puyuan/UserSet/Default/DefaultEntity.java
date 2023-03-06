@@ -7,14 +7,18 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.LocalDateTime;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "_default")
+@Table(name = "default")
 @EntityListeners(AuditingEntityListener.class)
 public class DefaultEntity {
     @Id
@@ -26,52 +30,54 @@ public class DefaultEntity {
     @JsonBackReference
     private AppUserEntity appUser;
 
-//    @Schema(description = "最大糖分")
+//  "最大糖分"
     private Integer sugar_delta_max;
-//    @Schema(description = "最小糖分")
+//  "最小糖分"
     private Integer sugar_delta_min;
-//    @Schema(description = "早上最大糖分")
+//  "早上最大糖分"
     private Integer sugar_morning_max;
-//    @Schema(description = "早上最小糖分")
+//  "早上最小糖分"
     private Integer sugar_morning_min;
-//    @Schema(description = "晚上最大糖分")
+//  "晚上最大糖分"
     private Integer sugar_evening_max;
-//    @Schema(description = "晚上最小糖分")
+//  "晚上最小糖分"
     private Integer sugar_evening_min;
-//    @Schema(description = "之前最大糖分")
+//  "之前最大糖分"
     private Integer sugar_before_max;
-//    @Schema(description = "之前最小糖分")
+//  "之前最小糖分"
     private Integer sugar_before_min;
-//    @Schema(description = "之後最大糖分")
+//  "之後最大糖分"
     private Integer sugar_after_max;
-//    @Schema(description = "之後最小糖分")
+//  "之後最小糖分"
     private Integer sugar_after_min;
-//    @Schema(description = "收縮最大")
+//  "收縮最大"
     private Integer systolic_max;
-//    @Schema(description = "收縮最小")
+//  "收縮最小"
     private Integer systolic_min;
-//    @Schema(description = "舒張最大")
+//  "舒張最大"
     private Integer diastolic_max;
-//    @Schema(description = "舒張最小")
+//  "舒張最小"
     private Integer diastolic_min;
-//    @Schema(description = "脈搏最大")
+//  "脈搏最大"
     private Integer pulse_max;
-//    @Schema(description = "脈搏最小")
+//  "脈搏最小"
     private Integer pulse_min;
-//    @Schema(description = "重量最大")
+//  "重量最大"
     private Integer weight_max;
-//    @Schema(description = "重量最小")
+//  "重量最小"
     private Integer weight_min;
-//    @Schema(description = "bmi最大")
+//  "bmi最大"
     private Integer bmi_max;
-//    @Schema(description = "bmi最小")
+//  "bmi最小"
     private Integer bmi_min;
-//    @Schema(description = "體內脂肪最大")
+//  "體內脂肪最大"
     private Integer body_fat_max;
-//    @Schema(description = "體內脂肪最小")
+//  "體內脂肪最小"
     private Integer body_fat_min;
-//    @Schema(description = "創建時間")
-    private Integer created_at;
-//    @Schema(description = "更新時間")
-    private Integer updated_at;
+//  "創建時間"
+    @CreatedDate
+    private LocalDateTime created_at;
+//  "更新時間"
+    @LastModifiedDate
+    private LocalDateTime updated_at;
 }

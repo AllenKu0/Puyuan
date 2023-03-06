@@ -7,14 +7,18 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.LocalDateTime;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "_setting")
+@Table(name = "setting")
 @EntityListeners(AuditingEntityListener.class)
 public class SettingEntity {
     @Id
@@ -26,15 +30,17 @@ public class SettingEntity {
     @JsonBackReference
     private AppUserEntity appUser;
 
-    private boolean after_recording;
-    private boolean no_recording_for_a_day;
-    private boolean over_max_or_under_min;
-    private boolean after_meal;
-    private boolean unit_of_sugar;
-    private boolean unit_of_weight;
-    private boolean unit_of_height;
-    private String created_at;
-    private String updated_at;
+    private Boolean after_recording;
+    private Boolean no_recording_for_a_day;
+    private Boolean over_max_or_under_min;
+    private Boolean after_meal;
+    private Boolean unit_of_sugar;
+    private Boolean unit_of_weight;
+    private Boolean unit_of_height;
+    @CreatedDate
+    private LocalDateTime created_at;
+    @LastModifiedDate
+    private LocalDateTime updated_at;
 
 
 }
