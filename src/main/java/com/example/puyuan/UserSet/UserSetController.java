@@ -25,16 +25,15 @@ public class UserSetController {
     }
 
     @Operation(summary = "個人資訊更新")
-    @PatchMapping
+    @PatchMapping("")
     public ResponseEntity<StatusResponse> userSet(
-//            @RequestBody Map<String, Object> request
-            @RequestBody UserInformationRequest request
+        @RequestBody UserInformationRequest request
     ){
         return ResponseEntity.ok(service.userSet(request));
     }
 
     @Operation(summary = "個人預設值更新")
-    @RequestMapping("/default")
+    @PatchMapping("/default")
     public ResponseEntity<StatusResponse> defaultSetting(
             @RequestBody DefaultRequest request
     ){

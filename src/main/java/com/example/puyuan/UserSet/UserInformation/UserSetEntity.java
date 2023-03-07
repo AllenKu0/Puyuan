@@ -1,10 +1,8 @@
 package com.example.puyuan.UserSet.UserInformation;
 
 import com.example.puyuan.AppUser.AppUserEntity;
-import com.example.puyuan.MyUtils.Validator.Phone;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -49,10 +47,8 @@ public class UserSetEntity {
     //"體重"
     private String weight;
     //"電話"
-    @Phone
     private String phone;
     //"電子郵件"
-    @Email
     private String email;
     //"邀請代碼"
     private String invite_code;
@@ -60,7 +56,7 @@ public class UserSetEntity {
     private String unread_recode_two;
     private String unread_recode_three;
     //"徽章"
-    private String badge;
+    private int badge;
     //"創建時間"
     @CreatedDate
     private LocalDateTime created_at;

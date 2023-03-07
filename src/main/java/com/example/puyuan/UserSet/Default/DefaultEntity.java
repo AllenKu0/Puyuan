@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "default")
+@Table(name = "_default")
 @EntityListeners(AuditingEntityListener.class)
 public class DefaultEntity {
     @Id

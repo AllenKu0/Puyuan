@@ -1,4 +1,7 @@
-version: '1'
+# 作者: IanLiu
+# 描述: 用於統一每個開發者的"開發環境"
+
+version: '3.8'
 services:
   db:
     container_name: 'postgresql'
@@ -6,8 +9,6 @@ services:
     restart: always
     ports:
       - "5436:5432"
-    expose:
-      - "5432"
     environment:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: puyuan
@@ -36,11 +37,17 @@ services:
   redis:
     container_name: 'myredis'
     image: redis:7.0-alpine
+    restart: always
+#    volumes:
+#      - redis-data:/data
     ports:
       - "6379:6379"
+    networks:
+      - backend
 
 volumes:
   db-data:
+  redis-data:
 
 networks:
   backend:

@@ -22,8 +22,8 @@ spring:
     properties:
       hibernate:
         format_sql: true
-    database: postgresql
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+#    database-platform: org.hibernate.dialect.PostgreSQLDialect
   data:
     redis:
       host: ${conf.redis.host}  #Redis伺服器位址 (預設 localhost)

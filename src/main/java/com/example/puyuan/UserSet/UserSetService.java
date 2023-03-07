@@ -28,7 +28,6 @@ public class UserSetService {
 
     /**
      * 個人資訊查詢
-     * @return
      */
     public Map<String, Object> getUserSet() {
         var userDetails = (AppUserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -43,18 +42,16 @@ public class UserSetService {
 
     /**
      * 個人資訊更新
-     * @param request
-     * @return
      */
     public StatusResponse userSet(UserInformationRequest request) {
-        var userDetails = ((AppUserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-        var userSet = userSetRepository.findAllByAppUser(userDetails)
-                .orElse(
-                        UserSetEntity.builder()
-                                .appUser(userDetails)
-                                .email(userDetails.getEmail())
-                                .build()
-                );
+        var appUser = (AppUserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        var userSet = userSetRepository.findByAppUser(appUser)
+            .orElse(
+                UserSetEntity.builder()
+                    .appUser(appUser)
+                    .email(appUser.getEmail())
+                    .build()
+            );
         BeanUtils.copyProperties(request, userSet);
         userSetRepository.save(userSet);
         return StatusResponse.SUCCESS();
@@ -62,17 +59,15 @@ public class UserSetService {
 
     /**
      * 個人預設值更新
-     * @param request
-     * @return
      */
     public StatusResponse defaultSetting(DefaultRequest request) {
-        var appUser = ((AppUserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-        var userDefault = defaultRepository.findAllByAppUser(appUser)
-                .orElse(
-                        DefaultEntity.builder()
-                                .appUser(appUser)
-                                .build()
-                );
+        var appUser = (AppUserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        var userDefault = defaultRepository.findByAppUser(appUser)
+            .orElse(
+                DefaultEntity.builder()
+                    .appUser(appUser)
+                    .build()
+            );
         BeanUtils.copyProperties(request, userDefault);
         defaultRepository.save(userDefault);
         return StatusResponse.SUCCESS();
@@ -80,17 +75,15 @@ public class UserSetService {
 
     /**
      * 個人設定更新
-     * @param request
-     * @return
      */
     public StatusResponse personalSettings(SettingRequest request) {
-        var userApp = ((AppUserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        var userApp = (AppUserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         var userSetting = settingRepository.findAllByAppUser(userApp)
-                .orElse(
-                        SettingEntity.builder()
-                                .appUser(userApp)
-                                .build()
-                );
+            .orElse(
+                SettingEntity.builder()
+                    .appUser(userApp)
+                    .build()
+            );
         BeanUtils.copyProperties(request, userSetting);
         settingRepository.save(userSetting);
         return StatusResponse.SUCCESS();

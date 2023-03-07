@@ -9,5 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface UserSetRepository extends JpaRepository<UserSetEntity, Long> {
-    Optional<UserSetEntity> findAllByAppUser(AppUserEntity appUser);
+    Optional<UserSetEntity> findByAppUser(AppUserEntity appUser);
 }

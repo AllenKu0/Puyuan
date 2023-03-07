@@ -34,7 +34,7 @@ public class MyController {
 
     private final RedisTemplate<String, Object> redisTemplate;
 
-    @GetMapping("/hello/DBTest")
+    @GetMapping("/DBTest")
     public ResponseEntity<Map<String, Object>> BDTest() {
         List<AppUserEntity> appUsers = appUserRepository.findAll();
         List<UserSetEntity> userSets = userSetRepository.findAll();
