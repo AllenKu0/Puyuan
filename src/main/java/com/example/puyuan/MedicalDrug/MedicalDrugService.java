@@ -66,7 +66,8 @@ public class MedicalDrugService {
     /**
      * 部分設定(更新)就醫資訊
      */
-    public StatusResponse updateMedicalInfo(
+    public StatusResponse
+    updateMedicalInfo(
         MedicalInfoRequest request
     ) {
         var appUser = (AppUserEntity)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
