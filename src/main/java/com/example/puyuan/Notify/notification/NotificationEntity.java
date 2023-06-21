@@ -1,6 +1,7 @@
-package com.example.puyuan.Diary;
+package com.example.puyuan.Notify.notification;
 
 import com.example.puyuan.AppUser.AppUserEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.AllArgsConstructor;
@@ -12,41 +13,34 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import javax.swing.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
+@Entity
+@Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@Entity
+@Table(name = "notification")
 @EntityListeners(AuditingEntityListener.class)
-public class DiaryDietEntity {
+public class NotificationEntity {
     @Id
+    @GeneratedValue
+    @Column(length = 50)
     private Long id;
-
-    /**描述**/
-    private int description;
-    /**時段(早餐、午餐、晚餐)**/
-    private int meal;
-    /**標籤**/
-    @ElementCollection
-    private List<String> tag;
-    /**照片數量**/
-    private Integer image;
-    /**緯度**/
-    private String lat;
-    /**經度**/
-    private String ing;
-    /**紀錄時間**/
-    private LocalDateTime recorded_at;
-
-    @LastModifiedDate
-    private LocalDateTime updated_at;
+    private Integer member_id;
+    private Integer reply_id;
+    @Column(length = 100)
+    private String message;
     @CreatedDate
     private LocalDateTime created_at;
-
+    @LastModifiedDate
+    private LocalDateTime updated_at;
     @CreatedBy
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     private AppUserEntity appUser;
+
+
+
 }

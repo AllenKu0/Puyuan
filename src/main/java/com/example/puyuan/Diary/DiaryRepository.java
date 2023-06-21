@@ -1,6 +1,7 @@
 package com.example.puyuan.Diary;
 
 import com.example.puyuan.AppUser.AppUserEntity;
+import com.example.puyuan.Measurement.BloodPressure.BloodPressureEntity;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -24,4 +25,7 @@ public interface DiaryRepository extends JpaRepository<DiaryDietEntity,Long> {
     @Modifying
     @Query("DELETE  FROM DiaryDietEntity d WHERE d.id IN :ids AND d.appUser = :appUser")
     void deleteByIdAndAppUser(@Param("ids") List<Long> ids,@Param("appUser") AppUserEntity appUser);
+
+    @Query("SELECT bp FROM DiaryDietEntity bp WHERE bp.appUser = :appUser ORDER BY bp.recorded_at DESC")
+    List<DiaryDietEntity> findFirstByAppUserOrderByRecordedAtDesc(@Param("appUser") AppUserEntity appUser);
 }

@@ -42,8 +42,8 @@ public class DiaryService {
                 .meal(request.getMeal())
                 .tag(request.getTag())
                 .image(request.getImage())
-                .lat(request.getLat())
-                .ing(request.getIng())
+                .lat(String.valueOf(request.getLat()))
+                .ing(String.valueOf(request.getIng()))
                 .recorded_at(request.getRecorded_at())
                 .build();
 

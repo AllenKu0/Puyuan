@@ -1,6 +1,7 @@
 package com.example.puyuan.Measurement.BloodSugar;
 
 import com.example.puyuan.AppUser.AppUserEntity;
+import com.example.puyuan.Diary.DiaryDietEntity;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -19,6 +20,9 @@ public interface BloodSugarRepository extends JpaRepository<BloodSugarEntity, Lo
 
     @Transactional
     @Modifying
-    @Query("DELETE  FROM DiaryDietEntity d WHERE d.id IN :ids AND d.appUser = :appUser")
+    @Query("DELETE  FROM BloodSugarEntity d WHERE d.id IN :ids AND d.appUser = :appUser")
     void deleteByIdAndAppUser(@Param("ids") List<Long> ids,@Param("appUser") AppUserEntity appUser);
+
+    @Query("SELECT bp FROM BloodSugarEntity bp WHERE bp.appUser = :appUser ORDER BY bp.recorded_at DESC")
+    List<BloodSugarEntity> findFirstByAppUserOrderByRecordedAtDesc(@Param("appUser") AppUserEntity appUser);
 }

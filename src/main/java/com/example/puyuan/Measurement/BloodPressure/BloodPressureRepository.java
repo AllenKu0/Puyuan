@@ -21,6 +21,9 @@ public interface BloodPressureRepository extends JpaRepository<BloodPressureEnti
 
     @Transactional
     @Modifying
-    @Query("DELETE  FROM DiaryDietEntity d WHERE d.id IN :ids AND d.appUser = :appUser")
+    @Query("DELETE  FROM BloodPressureEntity d WHERE d.id IN :ids AND d.appUser = :appUser")
     void deleteByIdAndAppUser(@Param("ids") List<Long> ids,@Param("appUser") AppUserEntity appUser);
+
+    @Query("SELECT bp FROM BloodPressureEntity bp WHERE bp.appUser = :appUser ORDER BY bp.recorded_at DESC")
+    List<BloodPressureEntity> findFirstByAppUserOrderByRecordedAtDesc(@Param("appUser") AppUserEntity appUser);
 }
