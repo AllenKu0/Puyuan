@@ -60,7 +60,6 @@ public class AppUserEntity implements UserDetails {
     private List<SettingEntity> userSettings = new ArrayList<>();
 
 
-
     @LastModifiedDate
     private LocalDateTime updated_at;
 

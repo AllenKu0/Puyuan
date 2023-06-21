@@ -24,12 +24,12 @@ spring:
         format_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
 #    database-platform: org.hibernate.dialect.PostgreSQLDialect
-  data:
-    redis:
-      host: ${conf.redis.host}  #Redis伺服器位址 (預設 localhost)
-      port: ${conf.redis.port} #Redis伺服器埠號 (預設 6379)
-      database: ${conf.redis.database}  #Redis資料庫索引 (預設 0)
-      timeout: 4000 # 讀取超時
+#  data:
+#    redis:
+#      host: ${conf.redis.host}  #Redis伺服器位址 (預設 localhost)
+#      port: ${conf.redis.port} #Redis伺服器埠號 (預設 6379)
+#      database: ${conf.redis.database}  #Redis資料庫索引 (預設 0)
+#      timeout: 4000 # 讀取超時
 
 debug: true
 

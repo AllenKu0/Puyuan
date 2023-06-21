@@ -25,27 +25,20 @@ public class WeightEntity {
     @GeneratedValue
     @Column(length = 50)
     private Long id;
-
     /** 使用者的體重 */
     @Column(length = 3)
     private Float weight;
-
     /** 使用者的體脂 */
     @Column(length = 3)
     private Float body_fat;
-
     /** 使用者的BMI */
     @Column(length = 3)
     private Float bmi;
-
     private LocalDateTime recorded_at;
-
     @LastModifiedDate
     private LocalDateTime updated_at;
-
     @CreatedDate
     private LocalDateTime created_at;
-
     @CreatedBy
     @ManyToOne(fetch = FetchType.LAZY)
     private AppUserEntity appUser;

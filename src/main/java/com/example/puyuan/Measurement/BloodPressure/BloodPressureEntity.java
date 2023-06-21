@@ -25,28 +25,21 @@ public class BloodPressureEntity {
     @GeneratedValue
     @Column(length = 50)
     private Long id;
-
     /** 使用者的收縮壓 */
     @Column(length = 3)
     private Float systolic;
-
     /** 使用者的舒張壓 */
     @Column(length = 3)
     private Float diastolic;
-
     /** 使用者的心跳 */
     @Column(length = 3)
     private Float pulse;
-
     /** 紀錄時間 */
     private LocalDateTime recorded_at;
-
     @LastModifiedDate
     private LocalDateTime updated_at;
-
     @CreatedDate
     private LocalDateTime created_at;
-
     @CreatedBy
     @ManyToOne(fetch = FetchType.LAZY)
     private AppUserEntity appUser;
