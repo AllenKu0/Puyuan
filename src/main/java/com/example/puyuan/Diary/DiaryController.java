@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class DiaryController {
 
-    private DiaryService service;
+    private final DiaryService service;
 
     @GetMapping("/diary")
     public ResponseEntity<?> diary(@RequestParam String date) {

@@ -2,6 +2,7 @@ package com.example.puyuan.Diary;
 
 import com.example.puyuan.AppUser.AppUserEntity;
 import com.example.puyuan.Measurement.BloodPressure.BloodPressureEntity;
+import com.example.puyuan.Measurement.Weight.WeightEntity;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -28,4 +29,7 @@ public interface DiaryRepository extends JpaRepository<DiaryDietEntity,Long> {
 
     @Query("SELECT bp FROM DiaryDietEntity bp WHERE bp.appUser = :appUser ORDER BY bp.recorded_at DESC")
     List<DiaryDietEntity> findFirstByAppUserOrderByRecordedAtDesc(@Param("appUser") AppUserEntity appUser);
+
+    @Query(value = "SELECT dd FROM DiaryDietEntity dd WHERE dd.appUser = :appUser ORDER BY dd.recorded_at DESC LIMIT 1")
+    DiaryDietEntity findLatestByAppUserOrderByRecorded(@Param("appUser") AppUserEntity appUser);
 }

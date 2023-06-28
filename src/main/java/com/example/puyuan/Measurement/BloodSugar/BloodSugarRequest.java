@@ -9,15 +9,18 @@ import java.time.LocalDateTime;
 
 @Data
 @Schema(name = "上傳血糖測量結果之請求")
-@Builder
 public class BloodSugarRequest {
     @Schema(description = "使用者的血糖")
     private int sugar;
 
+    @Schema(description = "使用者的鍛鍊")
+    private Integer exercise;
+
+    @Schema(description = "使用者的藥品")
+    private Integer drug;
     @Schema(description = "使用者的時段")
     private int timeperiod;
 
-    @JsonIgnore
     @Schema(description = "使用者的紀錄時間")
     private LocalDateTime recorded_at;
 }

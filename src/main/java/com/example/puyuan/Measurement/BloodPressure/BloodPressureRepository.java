@@ -1,6 +1,7 @@
 package com.example.puyuan.Measurement.BloodPressure;
 
 import com.example.puyuan.AppUser.AppUserEntity;
+import com.example.puyuan.Measurement.BloodSugar.BloodSugarEntity;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -26,4 +27,7 @@ public interface BloodPressureRepository extends JpaRepository<BloodPressureEnti
 
     @Query("SELECT bp FROM BloodPressureEntity bp WHERE bp.appUser = :appUser ORDER BY bp.recorded_at DESC")
     List<BloodPressureEntity> findFirstByAppUserOrderByRecordedAtDesc(@Param("appUser") AppUserEntity appUser);
+
+    @Query(value = "SELECT bp FROM BloodPressureEntity bp WHERE bp.appUser = :appUser ORDER BY bp.recorded_at DESC LIMIT 1")
+    BloodPressureEntity findLatestByAppUserOrderByRecorded(@Param("appUser") AppUserEntity appUser);
 }

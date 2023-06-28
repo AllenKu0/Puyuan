@@ -15,10 +15,10 @@ public class OtherService {
     /**
      * 更新Badge
      */
-    public StatusResponse updateBadge(int num) {
+    public StatusResponse updateBadge() {
         var appUser = (AppUserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         var data = userSetRepository.findByAppUser(appUser).orElseThrow();
-        data.setBadge(num);
+        data.setBadge(1);
         userSetRepository.save(data);
         return StatusResponse.SUCCESS();
     }

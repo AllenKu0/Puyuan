@@ -25,4 +25,7 @@ public interface BloodSugarRepository extends JpaRepository<BloodSugarEntity, Lo
 
     @Query("SELECT bp FROM BloodSugarEntity bp WHERE bp.appUser = :appUser ORDER BY bp.recorded_at DESC")
     List<BloodSugarEntity> findFirstByAppUserOrderByRecordedAtDesc(@Param("appUser") AppUserEntity appUser);
+
+    @Query(value = "SELECT bs FROM BloodSugarEntity bs WHERE bs.appUser = :appUser ORDER BY bs.recorded_at DESC LIMIT 1")
+    BloodSugarEntity findLatestByAppUserOrderByRecorded(@Param("appUser") AppUserEntity appUser);
 }

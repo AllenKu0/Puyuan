@@ -33,6 +33,4 @@ public class ShareEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     private AppUserEntity appUser;
-
-
 }

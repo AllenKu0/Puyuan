@@ -11,7 +11,6 @@ import java.util.List;
 
 @Data
 @Schema(name = "日記請求")
-@Builder
 public class DietRequest {
 
     @Schema(description = "描述")
@@ -31,9 +30,8 @@ public class DietRequest {
     private double lat;
 
     @Schema(description = "經度")
-    private double ing;
+    private double lng;
 
-    @JsonIgnore
     @Schema(description = "紀錄時間")
     private LocalDateTime recorded_at;
 }

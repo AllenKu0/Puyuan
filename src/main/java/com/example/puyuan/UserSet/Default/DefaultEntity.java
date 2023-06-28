@@ -25,7 +25,9 @@ public class DefaultEntity {
     @GeneratedValue
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    private Integer user_id;
+
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "app_user_id")
     @JsonBackReference
     private AppUserEntity appUser;

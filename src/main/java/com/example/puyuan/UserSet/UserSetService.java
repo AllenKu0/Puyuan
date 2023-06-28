@@ -34,9 +34,9 @@ public class UserSetService {
         var userData = appUserRepository.findById(userDetails.getId()).orElseThrow();
         var response = new LinkedHashMap<String, Object>();
         response.put("status",StatusResponse.RC.SUCCESS.getCode());
-        response.put("user", userData.getUserSets().get(0));
-        response.put("default",userData.getUserDefaults().get(0));
-        response.put("setting",userData.getUserSettings().get(0));
+        response.put("user", userData.getUserSet());
+        response.put("default",userData.getUserDefault());
+        response.put("setting",userData.getUserSetting());
         return response;
     }
 

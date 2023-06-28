@@ -6,6 +6,13 @@ import com.example.puyuan.AppUser.AppUserRole;
 import com.example.puyuan.Auth.request.*;
 import com.example.puyuan.Base.StatusResponse;
 import com.example.puyuan.Security.JwtService;
+import com.example.puyuan.UserSet.Default.DefaultEntity;
+import com.example.puyuan.UserSet.Default.DefaultRepository;
+import com.example.puyuan.UserSet.Setting.SettingEntity;
+import com.example.puyuan.UserSet.Setting.SettingRepository;
+import com.example.puyuan.UserSet.UserInformation.UserSetEntity;
+import com.example.puyuan.UserSet.UserInformation.UserSetRepository;
+import com.example.puyuan.UserSet.UserSetService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,30 +28,57 @@ import java.util.*;
 @AllArgsConstructor
 public class AuthenticationService {
     private final AppUserRepository userRepository;
+    private final DefaultRepository defaultRepository;
+    private final SettingRepository settingRepository;
+    private final UserSetRepository userSetRepository;
+
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
     public StatusResponse register(RegisterRequest request){
         var user = AppUserEntity.builder()
-                .account(request.getAccount())
+//                .account(request.getAccount())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .phone(request.getPhone())
+//                .phone(request.getPhone())
                 .email(request.getEmail())
                 .userRole(AppUserRole.USER)
                 .build();
+
         userRepository.save(user);
+
+        var userSet = UserSetEntity.builder()
+                .appUser(user)
+                .email(user.getEmail())
+                .inviteCode(generateInviteCode())
+                .build();
+
+        var userDefault = DefaultEntity.builder()
+                .appUser(user)
+                .user_id(user.getId().intValue())
+                .build();
+
+        var userSetting = SettingEntity.builder()
+                .appUser(user)
+                .user_id(user.getId().intValue())
+                .build();
+
+
+        userSetRepository.save(userSet);
+        defaultRepository.save(userDefault);
+        settingRepository.save(userSetting);
+
         return StatusResponse.SUCCESS();
     }
 
     public AuthenticationResponse login(LoginRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        request.getAccount(),
+                        request.getEmail(),
                         request.getPassword()
                 )
         );
-        var user = userRepository.findByEmail(request.getAccount()).orElseThrow();
+        var user = userRepository.findByEmail(request.getEmail()).orElseThrow();
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
@@ -120,6 +154,16 @@ public class AuthenticationService {
      * @return 回傳長度為6的數字驗證碼
      */
     private String generateCode() {
+        var codeSet = "0123456789";
+        var random = new Random();
+        var result = new StringBuilder();
+        for(int i = 0; i < 6; i++) {
+            result.append(codeSet.charAt(random.nextInt(codeSet.length())));
+        }
+        return result.toString();
+    }
+
+    public String generateInviteCode() {
         var codeSet = "0123456789";
         var random = new Random();
         var result = new StringBuilder();

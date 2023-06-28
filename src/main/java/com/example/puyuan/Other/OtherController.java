@@ -20,13 +20,13 @@ public class OtherController {
 
     private final OtherService service;
 
-    @PutMapping("/user/badge/{num}")
+    @PutMapping("/user/badge")
     @Operation(description = "更新Badge")
     public ResponseEntity<StatusResponse> updateBadge(
-        @PathVariable("num")
-        @Schema(description = "前端App圖標上的新通知數量")
-        @NotBlank int num
+//        @PathVariable("num")
+//        @Schema(description = "前端App圖標上的新通知數量")
+//        @NotBlank int num
     ) {
-        return ResponseEntity.ok(service.updateBadge(num));
+        return ResponseEntity.ok(service.updateBadge());
     }
 }

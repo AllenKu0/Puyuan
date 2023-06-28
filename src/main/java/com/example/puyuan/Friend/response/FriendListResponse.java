@@ -1,4 +1,4 @@
-package com.example.puyuan.Diary.response;
+package com.example.puyuan.Friend.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Location {
-    /**緯度**/
-    private String lat;
-    /**經度**/
-    private String lng;
+public class FriendListResponse {
+    private Long id;
+    private String name;
+    private Integer relation_type;
 }

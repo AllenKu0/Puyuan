@@ -15,6 +15,7 @@ import com.example.puyuan.Measurement.BloodSugar.BloodSugarRequest;
 import com.example.puyuan.Measurement.Weight.WeightEntity;
 import com.example.puyuan.Measurement.Weight.WeightRepository;
 import com.example.puyuan.Measurement.Weight.WeightRequest;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -31,10 +32,10 @@ import java.util.*;
 @RequiredArgsConstructor
 @Slf4j
 public class DiaryService {
-    private DiaryRepository diaryRepository;
-    private BloodPressureRepository bloodPressureRepository;
-    private BloodSugarRepository bloodSugarRepository;
-    private WeightRepository weightRepository;
+    private final DiaryRepository diaryRepository;
+    private final BloodPressureRepository bloodPressureRepository;
+    private final BloodSugarRepository bloodSugarRepository;
+    private final WeightRepository weightRepository;
 
     public Map<String,Object> newDiet(DietRequest request) {
         var data = DiaryDietEntity.builder()
@@ -43,7 +44,7 @@ public class DiaryService {
                 .tag(request.getTag())
                 .image(request.getImage())
                 .lat(String.valueOf(request.getLat()))
-                .ing(String.valueOf(request.getIng()))
+                .lng(String.valueOf(request.getLng()))
                 .recorded_at(request.getRecorded_at())
                 .build();
 
@@ -60,8 +61,8 @@ public class DiaryService {
         var response = new LinkedHashMap<String,Object>();
         var diary = new ArrayList<>();
         var appUser = (AppUserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        LocalDateTime startTime = LocalDateTime.parse(date + "00:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        LocalDateTime endTime = LocalDateTime.parse(date + "23:59:59",DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        LocalDateTime startTime = LocalDateTime.parse(date + " 00:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        LocalDateTime endTime = LocalDateTime.parse(date + " 23:59:59",DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
         List<BloodPressureEntity> bloodPressureEntities = bloodPressureRepository.findLatestByRecordedAtBetweenAndAppUser(startTime,endTime,appUser);
         List<BloodSugarEntity> bloodSugarEntities = bloodSugarRepository.findLatestByRecordedAtBetweenAndAppUser(startTime,endTime,appUser);
@@ -69,50 +70,60 @@ public class DiaryService {
         List<DiaryDietEntity> diaryDietEntities = diaryRepository.findLatestByRecordedAtBetweenAndAppUser(startTime,endTime,appUser);
 
         if(!bloodPressureEntities.isEmpty()){
-            var bloodPressure_response = DiaryResponse.builder()
-                    .id(appUser.getId())
-                    .user_id(appUser.getId().intValue())
-                    .pulse(bloodPressureEntities.get(0).getPulse())
-                    .diastolic(bloodPressureEntities.get(0).getDiastolic())
-                    .systolic(bloodPressureEntities.get(0).getSystolic())
-                    .recorded_at(bloodPressureEntities.get(0).getRecorded_at())
-                    .type("blood_pressure")
-                    .build();
-            diary.add(bloodPressure_response);
+            for (var entity:bloodPressureEntities) {
+                var bloodPressure_response = DiaryResponse.builder()
+                        .id(entity.getId())
+                        .user_id(appUser.getId().intValue())
+                        .pulse(entity.getPulse())
+                        .diastolic(entity.getDiastolic())
+                        .systolic(entity.getSystolic())
+                        .recorded_at(entity.getRecorded_at())
+                        .type("blood_pressure")
+                        .build();
+                diary.add(bloodPressure_response);
+            }
         }
         if(!bloodSugarEntities.isEmpty()) {
-            var bloodSugarRequest = DiaryResponse.builder()
-                    .id(appUser.getId())
-                    .user_id(appUser.getId().intValue())
-                    .sugar(bloodSugarEntities.get(0).getSugar())
-                    .timeperiod(bloodSugarEntities.get(0).getTimeperiod())
-                    .type("blood_sugar")
-                    .build();
+            for (var entity:bloodSugarEntities) {
+                var bloodSugarRequest = DiaryResponse.builder()
+                        .id(entity.getId())
+                        .user_id(appUser.getId().intValue())
+                        .sugar(entity.getSugar())
+                        .timeperiod(entity.getTimeperiod())
+                        .type("blood_sugar")
+                        .build();
 
-            diary.add(bloodSugarRequest);
+                diary.add(bloodSugarRequest);
+            }
         }
 
         if(!weightEntities.isEmpty()) {
-            var weightRequest = DiaryResponse.builder()
-                    .id(appUser.getId())
-                    .user_id(appUser.getId().intValue())
-                    .weight(weightEntities.get(0).getWeight())
-                    .body_fat(weightEntities.get(0).getBody_fat())
-                    .bmi(weightEntities.get(0).getBmi())
-                    .type("weight")
-                    .build();
-            diary.add(weightRequest);
+            for (var entity:weightEntities) {
+                var weightRequest = DiaryResponse.builder()
+                        .id(entity.getId())
+                        .user_id(appUser.getId().intValue())
+                        .weight(entity.getWeight())
+                        .body_fat(entity.getBody_fat())
+                        .bmi(entity.getBmi())
+                        .type("weight")
+                        .build();
+                diary.add(weightRequest);
+            }
         }
         if(!diaryDietEntities.isEmpty()) {
-            var dietRequest = DiaryResponse.builder()
-                    .description(diaryDietEntities.get(0).getDescription())
-                    .image(Collections.singletonList(diaryDietEntities.get(0).getImage().toString()))
-                    .location(new Location(diaryDietEntities.get(0).getLat(),diaryDietEntities.get(0).getIng()))
-                    .meal(diaryDietEntities.get(0).getMeal())
+            for (var entity:diaryDietEntities) {
+                var dietRequest = DiaryResponse.builder()
+                        .id(entity.getId())
+                        .user_id(appUser.getId().intValue())
+                        .description(entity.getDescription())
+                        .image(Collections.singletonList(entity.getImage().toString()))
+                        .location(new Location(entity.getLat(),diaryDietEntities.get(0).getLng()))
+                        .meal(entity.getMeal())
 //                    .tag(diaryDietEntities.get(0).getTag())
-                    .type("diary_diet")
-                    .build();
-            diary.add(dietRequest);
+                        .type("diary_diet")
+                        .build();
+                diary.add(dietRequest);
+            }
         }
         response.put("status", StatusResponse.RC.SUCCESS.getCode());
         response.put("message","ok");

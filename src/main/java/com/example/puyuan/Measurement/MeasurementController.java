@@ -4,15 +4,13 @@ import com.example.puyuan.Measurement.BloodPressure.BloodPressureRequest;
 import com.example.puyuan.Measurement.BloodSugar.BloodSugarRequest;
 import com.example.puyuan.Measurement.Weight.WeightRequest;
 import com.example.puyuan.Base.StatusResponse;
+import com.example.puyuan.Measurement.request.TimeRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/user")
@@ -20,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class MeasurementController {
 
-    private MeasurementService service;
+    private final MeasurementService service;
 
     @Operation(summary = "上傳血壓測量結果")
     @PostMapping("/blood/pressure")
@@ -44,5 +42,17 @@ public class MeasurementController {
         @RequestBody @Validated WeightRequest request
     ) {
         return ResponseEntity.ok(service.uploadWeight(request));
+    }
+
+    @Operation(summary = "最後上傳時間")
+    @GetMapping("/last-upload")
+    public ResponseEntity<?> lastUpload() {
+        return ResponseEntity.ok(service.lastUpload());
+    }
+
+    @Operation(summary = "最後上傳時間")
+    @PostMapping("/records")
+    public ResponseEntity<?> records(@RequestBody TimeRequest request) {
+        return ResponseEntity.ok(service.records(request));
     }
 }

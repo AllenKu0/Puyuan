@@ -47,17 +47,20 @@ public class AppUserEntity implements UserDetails {
     @JsonManagedReference
     private List<A1cEntity> a1cs = new ArrayList<>();
 
-    @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "appUser", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private List<UserSetEntity> userSets = new ArrayList<>();
+    private UserSetEntity userSet = new UserSetEntity();
 
-    @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "appUser", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private List<DefaultEntity> userDefaults = new ArrayList<>();
+    private DefaultEntity userDefault = new DefaultEntity();
 
-    @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "appUser", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private List<SettingEntity> userSettings = new ArrayList<>();
+    private SettingEntity userSetting = new SettingEntity();
+
+    @Column(name = "inviteCode",length = 10,updatable = false,unique = true)
+    private String inviteCode;
 
 
     @LastModifiedDate

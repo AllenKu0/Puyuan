@@ -12,7 +12,7 @@ public class LoginRequest {
     @Schema(description = "使用者的信箱")
     @NotBlank
     @Email
-    private String account;
+    private String email;
 
     @Schema(description = "使用者的密碼")
     @NotBlank

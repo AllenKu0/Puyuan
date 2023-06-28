@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 
 @Data
-@Builder
 @Schema(name = "ShareRequest",description = "分享請求")
 public class ShareRequest {
     @Schema(description = "種類, 0：血壓；1：體重,2：血糖；3：飲食")

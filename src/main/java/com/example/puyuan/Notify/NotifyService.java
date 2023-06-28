@@ -7,8 +7,8 @@ import com.example.puyuan.Diary.response.Location;
 import com.example.puyuan.Measurement.BloodPressure.BloodPressureRepository;
 import com.example.puyuan.Measurement.BloodSugar.BloodSugarRepository;
 import com.example.puyuan.Measurement.Weight.WeightRepository;
-import com.example.puyuan.Notify.news.NewsEntity;
-import com.example.puyuan.Notify.news.NewsRepository;
+//import com.example.puyuan.Notify.news.NewsEntity;
+//import com.example.puyuan.Notify.news.NewsRepository;
 import com.example.puyuan.Notify.notification.NotificationEntity;
 import com.example.puyuan.Notify.notification.NotificationRepository;
 import com.example.puyuan.Notify.notification.request.NotificationRequest;
@@ -35,13 +35,13 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Slf4j
 public class NotifyService {
-    private NewsRepository newsRepository;
-    private ShareRepository shareRepository;
-    private BloodSugarRepository bloodSugarRepository;
-    private BloodPressureRepository bloodPressureRepository;
-    private WeightRepository weightRepository;
-    private DiaryRepository diaryRepository;
-    private NotificationRepository notificationRepository;
+//    private final NewsRepository newsRepository;
+    private final ShareRepository shareRepository;
+    private final BloodSugarRepository bloodSugarRepository;
+    private final BloodPressureRepository bloodPressureRepository;
+    private final WeightRepository weightRepository;
+    private final DiaryRepository diaryRepository;
+    private final NotificationRepository notificationRepository;
 
 
     public StatusResponse notification(NotificationRequest request) {
@@ -59,7 +59,7 @@ public class NotifyService {
     public Map<String,Object> news() {
         var response = new LinkedHashMap<String,Object>();
         var newsDataList = new ArrayList<>();
-        var count = newsRepository.count();
+        var count = notificationRepository.count();
         if (count == 0) {
             var newsNull = NewsResponse
                     .builder()
@@ -77,7 +77,7 @@ public class NotifyService {
             response.put("message", "ok");
             response.put("news", newsDataList);
         } else {
-            List<NewsEntity> newsData = newsRepository.findAll();
+            var newsData = notificationRepository.findAll();
             newsDataList.add(newsData);
             response.put("status", StatusResponse.RC.SUCCESS.getCode());
             response.put("message", "ok");
@@ -171,7 +171,7 @@ public class NotifyService {
 //                        .image(i < diaryData.size() ? Collections.singletonList(diaryData.get(i).getImage().toString()) : new ArrayList<>())
                         .location(ShareLocationResponse.builder()
                                 .lat(i < diaryData.size() ? diaryData.get(i).getLat() : "")
-                                .lng(i < diaryData.size() ? diaryData.get(i).getIng() : "")
+                                .lng(i < diaryData.size() ? diaryData.get(i).getLng() : "")
                                 .build())
                         .relation_type(i < diaryData.size() ? diaryData.get(i).getImage() : 0)
                         .relation_id(i < notificationData.size() ? notificationData.get(i).getMember_id() : 0)

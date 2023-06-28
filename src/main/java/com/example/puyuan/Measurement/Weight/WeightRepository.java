@@ -3,6 +3,7 @@ package com.example.puyuan.Measurement.Weight;
 import com.example.puyuan.AppUser.AppUserEntity;
 import com.example.puyuan.Diary.DiaryDietEntity;
 
+import com.example.puyuan.Measurement.BloodSugar.BloodSugarEntity;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -28,4 +29,8 @@ public interface WeightRepository extends JpaRepository<WeightEntity, Long> {
 
     @Query("SELECT bp FROM WeightEntity bp WHERE bp.appUser = :appUser ORDER BY bp.recorded_at DESC")
     List<WeightEntity> findFirstByAppUserOrderByRecordedAtDesc(@Param("appUser") AppUserEntity appUser);
+
+
+    @Query(value = "SELECT we FROM WeightEntity we WHERE we.appUser = :appUser ORDER BY we.recorded_at DESC LIMIT 1")
+    WeightEntity findLatestWeightEntityByAppUser(@Param("appUser") AppUserEntity appUser);
 }

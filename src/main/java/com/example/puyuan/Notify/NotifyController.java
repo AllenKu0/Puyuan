@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class NotifyController {
 
-    private NotifyService service;
+    private final NotifyService service;
 
 
     @PostMapping("/notification")
@@ -33,7 +33,7 @@ public class NotifyController {
         return ResponseEntity.ok(service.share(request));
     }
 
-    @PostMapping("/share/{type}")
+    @GetMapping("/share/{type}")
     @Operation(summary = "查看分享")
     public ResponseEntity<?> share(@PathVariable Integer type){
         return ResponseEntity.ok(service.type(type));
